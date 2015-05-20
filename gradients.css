@@ -1,0 +1,120 @@
+/* Gradients */
+
+
+.bronzeGradient
+{	
+	border: 1px solid #FFD8B1;
+	border-radius: 7px;
+	padding: 2px;
+    background-color: #FFD8B1;
+    /* For WebKit (Safari, Chrome, etc) */
+    background: #FFD8B1 -webkit-gradient(linear, left top, left bottom, from(#A75B10), to(#FFD8B1)) no-repeat;
+    /* Mozilla,Firefox/Gecko */
+    background: #FFD8B1 -moz-linear-gradient(top, #A75B10, #FFD8B1) no-repeat;
+    /* IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#A75B10, endColorstr=#FFD8B1) no-repeat;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#A75B10, endColorstr=#A75B10)" no-repeat;
+}
+
+
+.silverGradient
+{
+	border: 1px solid #C0C0C0;
+	border-radius: 7px;
+	padding: 2px;
+    background-color: #C0C0C0;
+    /* For WebKit (Safari, Chrome, etc) */
+    background: #C0C0C0 -webkit-gradient(linear, left top, left bottom, from(#C0C0C0), to(#C0C0C0)) no-repeat;
+    /* Mozilla,Firefox/Gecko */
+    background: #C0C0C0 -moz-linear-gradient(top, #C0C0C0, #C0C0C0) no-repeat;
+    /* IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#C0C0C0, endColorstr=#C0C0C0) no-repeat;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#C0C0C0, endColorstr=#C0C0C0)" no-repeat;
+}
+
+.goldGradient
+{
+	border: 1px solid #FFEEB5;
+	border-radius: 7px;
+    background-color: #FFEEB5;
+    padding: 2px;
+    /* For WebKit (Safari, Chrome, etc) */
+    background: #FFEEB5 -webkit-gradient(linear, left top, left bottom, from(#AE8913), to(#FFEEB5)) no-repeat;
+    /* Mozilla,Firefox/Gecko */
+    background: #FFEEB5 -moz-linear-gradient(top, #AE8913, #FFEEB5) no-repeat;
+    /* IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#AE8913, endColorstr=#FFEEB5) no-repeat;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#AE8913, endColorstr=#AE8913)" no-repeat;
+}
+
+.platGradient
+{
+	border: 1px solid #E3E5E4;
+	border-radius: 7px;
+	padding: 2px;
+    background-color: #E3E5E4;
+    /* For WebKit (Safari, Chrome, etc) */
+    background: #E3E5E4 -webkit-gradient(linear, left top, left bottom, from(#1E4C3C), to(#E3E5E4)) no-repeat;
+    /* Mozilla,Firefox/Gecko */
+    background: #E3E5E4 -moz-linear-gradient(top, #1E4C3C, #E3E5E4) no-repeat;
+    /* IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#1E4C3C, endColorstr=#E3E5E4) no-repeat;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#1E4C3C, endColorstr=#1E4C3C)" no-repeat;
+}
+
+
+.diamondGradient
+{	
+	border: 1px solid #D7EDFF;
+	border-radius: 7px;
+	padding: 2px;
+    background-color: #D7EDFF;
+    /* For WebKit (Safari, Chrome, etc) */
+    background: #D7EDFF -webkit-gradient(linear, left top, left bottom, from(#2D7AB7), to(#D7EDFF)) no-repeat;
+    /* Mozilla,Firefox/Gecko */
+    background: #D7EDFF -moz-linear-gradient(top, #2D7AB7, #D7EDFF) no-repeat;
+    /* IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#2D7AB7, endColorstr=#D7EDFF) no-repeat;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#2D7AB7, endColorstr=#2D7AB7)" no-repeat;
+}
+
+
+.masterGradient
+{	
+	border: 1px solid #A0FFF4;
+	border-radius: 7px;
+	padding: 2px;
+    background-color: #A0FFF4;
+    /* For WebKit (Safari, Chrome, etc) */
+    background: #A0FFF4 -webkit-gradient(linear, left top, left bottom, from(#04A593), to(#A0FFF4)) no-repeat;
+    /* Mozilla,Firefox/Gecko */
+    background: #A0FFF4 -moz-linear-gradient(top, #04A593, #A0FFF4) no-repeat;
+    /* IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#04A593, endColorstr=#A0FFF4) no-repeat;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#04A593, endColorstr=#04A593)" no-repeat;
+}
+
+
+
+.challGradient
+{
+	border: 1px solid #FFCEA3;
+	border-radius: 7px;
+	padding: 2px;
+    background-color: #FFCEA3;
+    /* For WebKit (Safari, Chrome, etc) */
+    background: #FFCEA3 -webkit-gradient(linear, left top, left bottom, from(#C76108), to(#FFCEA3)) no-repeat;
+    /* Mozilla,Firefox/Gecko */
+    background: #FFCEA3 -moz-linear-gradient(top, #C76108, #FFCEA3) no-repeat;
+    /* IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#C76108, endColorstr=#FFCEA3) no-repeat;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#C76108, endColorstr=#C76108)" no-repeat;
+}
+

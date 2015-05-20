@@ -1,0 +1,70 @@
+/** Classes **/
+.container{
+	position: absolute;
+	top: 0.75%;
+	left: 1%;
+	padding-left: 0px !important;
+	height: 85px !important;
+}
+
+.info{
+	position: relative;
+	display: inline;
+	font-weight: bold;
+	font-size: 1.0em;
+}
+
+.infoBox{
+	position: fixed;
+	margin: 0 auto;
+	height: 15%;
+	width: 100%;
+	border-bottom: 2px solid black;
+}
+
+.infoHolder{
+	position: relative;
+	font-weight: bold;
+	display: inline;
+	margin-left: 10px;
+}
+
+.nestedInfo{
+	position: relative;
+}
+
+.preNest:after{
+	content: '\A';
+  	white-space: pre;
+}
+
+.sumInfo{
+	position: absolute;
+	display: inline;
+	height: 75px;
+	width: 50%;
+	margin-left: 10px;
+}
+
+
+/* IDs */
+#curRank{
+	font-size: 2.0em;
+	font-weight: bold;
+}
+
+
+#updater{
+	position: fixed;
+	right: 1%;
+	top: 2%;
+}
+
+#user{
+	position: relative;
+	display: inline;
+	font-weight: bold;
+	font-size: 3.0em;
+}
+
+

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>LoL Data</title>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="common.js"></script>
+		<script src="index.js"></script>
+	</head>
+	<body>
+		<h1> LOL DATA </h1>
+		<form onSubmit="return grabUserForm();">
+			Search Summoner: <input id="userName" type="text" placeholder="Summoner Name" required>
+			<select id='region'>
+				<option value ='na' selected='selected'> NA</option>
+			</select>
+			<button type="submit">Go!</button>
+		</form>
+	</body>
+</html>

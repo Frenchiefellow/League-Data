@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>LoL Data</title>
+		<link rel="stylesheet" type="text/css" href="http://localhost:1337/xampp/lol/user.css" />
+		<link rel="stylesheet" type="text/css" href="http://localhost:1337/xampp/lol/gradients.css" />
+		<link rel="stylesheet" type="text/css" href="http://localhost:1337/xampp/lol/bootstrap/css/bootstrap.min.css" />
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="common.js"></script>
+		<script src="user.js"></script>
+	</head>
+	<body>
+
+		<div class="jumbotron">
+			<div class="container">
+				<img id="profileIcon" src="" height="75" style="display: inline; position: relative" />
+				<div class="sumInfo">
+					<div id="user"></div>
+					<div class="infoHolder preNest" id="curRank">S5 <div id="cRank" class="info"></div></div>
+						<div id="region" class="info"></div>
+						<div class="infoHolder">Level: <div id="level" class="info"></div></div>
+						<div class="infoHolder" id="prevRank">S4 <div id="pRank" class="info"></div></div>
+				</div>
+				<button id="updater">Update Summoner</button>
+			</div>
+		</div>
+	
+	</body>
+
+
+	<script>
+	$(document).ready(function(){
+		window.localStorage.clear();
+		assignPageDetails();
+
+		$("#updater").click(function(){
+			fetchUser( 'update', getUserName(), getRegion() );
+		});
+
+	});
+	</script>
+
+</html>
