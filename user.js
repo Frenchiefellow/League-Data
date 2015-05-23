@@ -73,6 +73,7 @@ function HTMLize( array ){
 		
 		assignRankColors( array.cRank.toLowerCase(), true );
 		assignRankColors( array.pRank.toLowerCase(), false);
+
 }
 
 // Add Appropriate Color Gradient to User Based on Given Rank
@@ -116,7 +117,7 @@ function assignRankColors( rank, type ){
 }
 
 //Grabs User information from Riot and/or DB
-function fetchUser( param, userQ, regionQ ){
+function fetchUser( param, userQ, regionQ, match ){
 	var result;
 	switch( param ){
 		case "error" :
@@ -154,15 +155,33 @@ function fetchUser( param, userQ, regionQ ){
 			}
 
 			results = (param === 'false') ? userToDB( user, sumID, regionQ, level, pRank, cRank, icon, false ) : userToDB( user, sumID, regionQ, level, pRank, cRank, icon, true );
+		
 			window.localStorage.setItem("sID", sumID); //Not sure if needed yet. 
+			window.localStorage.setItem('m', JSON.stringify(matches));
 			
-			if( result === "added" || results === 'updated'){
-				fetchUser( userExists( user ), user, regionQ ); // Call this method again to extract and display User Information
+			if( results === "added" || results === 'updated'){
+				fetchUser( userExists( user ), user, regionQ, matches ); // Call this method again to extract and display User Information
 			}
 			break;
 
 		default:
 			HTMLize( JSON.parse( param ) ); // Parse it to JSON so you can access by index
+
+			if( match === undefined ){
+				try{
+					match = JSON.parse( window.localStorage.getItem('m') ) ;
+				}catch( e ){
+					console.log( e );
+				}
+
+				if( match === null ){
+					var userData = JSON.parse( userExists( userQ ) );
+					match = grabData( buildUrl( regionQ, userData.ID, apiRef[1] ), apiRef[1] );
+					window.localStorage.setItem('m', JSON.stringify(match));
+				}
+			}
+
+			grabStats( match );
 			break;
 
 

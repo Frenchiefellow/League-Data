@@ -8,6 +8,7 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="common.js"></script>
 		<script src="user.js"></script>
+		<script src="stats.js"></script>
 	</head>
 	<body>
 
@@ -24,17 +25,19 @@
 				<button id="updater">Update Summoner</button>
 			</div>
 		</div>
+		<div id="dataDump"></div>
+		<div id="dataAvg"></div>
 	
 	</body>
 
 
 	<script>
 	$(document).ready(function(){
-		window.localStorage.clear();
+		//window.localStorage.clear();
 		assignPageDetails();
 
 		$("#updater").click(function(){
-			fetchUser( 'update', getUserName(), getRegion() );
+			fetchUser( 'update', getUserName(), getRegion(), {} );
 		});
 
 	});

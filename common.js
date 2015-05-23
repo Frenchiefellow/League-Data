@@ -1,3 +1,4 @@
+var host = "http://localhost:1337/xampp/lol/";
 var urlBase = 'https://na.api.pvp.net/api/lol/';
 var key = //;
 var messages = [ 'User Not Found in Region', 'Unknown Error', "Matches Not Found", "Unranked", "User Data not Found"];

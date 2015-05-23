@@ -20,10 +20,10 @@ if( isset( $_GET[ 'user' ] ) ){
 		echo "false";
 	else{
 		$arr = array();
-		$stmt = $connection->prepare( 'SELECT Name, Region, Level, pRank, cRank, icon FROM summoners WHERE Name = ? ');
+		$stmt = $connection->prepare( 'SELECT Name, Region, Level, pRank, cRank, icon, ID FROM summoners WHERE Name = ? ');
 		$stmt->bind_param( 's', $_GET[ 'user' ] );
 		$stmt->execute();
-		$stmt->bind_result( $name, $region, $level, $p, $c, $icon);
+		$stmt->bind_result( $name, $region, $level, $p, $c, $icon, $id);
 		while ( $stmt->fetch() ){
 			$arr["Name"] = $name;
 			$arr["Region"] = $region;
@@ -31,6 +31,7 @@ if( isset( $_GET[ 'user' ] ) ){
 			$arr["pRank"] = $p;
 			$arr["cRank"] = $c;	
 			$arr["icon"] = $icon;
+			$arr["ID"] = $id;
 		
 		}
 		$stmt->close();
