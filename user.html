@@ -18,7 +18,8 @@
 				<img id="profileIcon" src="" height="75" style="display: inline; position: relative" />
 				<div class="sumInfo">
 					<div id="user"></div>
-					<div class="infoHolder preNest" id="curRank">S5 <div id="cRank" class="info"></div></div>
+					<div class="infoHolder" id="curRank">S5 <div id="cRank" class="info"></div></div>
+						<div class="infoHolder preNest" id="delta"></div>
 						<div id="region" class="info"></div>
 						<div class="infoHolder">Level: <div id="level" class="info"></div></div>
 						<div class="infoHolder" id="prevRank">S4 <div id="pRank" class="info"></div></div>
@@ -38,7 +39,7 @@
 		assignPageDetails();
 
 		$("#updater").click(function(){
-			fetchUser( 'update', getUserName(), getRegion(), {} );
+			fetchUser( 'update', getUserName(), getRegion(), {},  {} );
 		});
 
 	});

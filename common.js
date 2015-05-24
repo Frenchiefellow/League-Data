@@ -51,3 +51,14 @@ function buildUrl(region, param, apiRef){
 function versionsUrl(region){
 	return (urlBase +  'static-data/' + region + '/v1.2/versions' + key)
 }
+
+
+// Returns the relationship between the two numbers
+function comparator( num1, num2){
+	if( num1 > num2)
+		return 1;
+	else if( num1 < num2)
+		return -1;
+	else
+		return 0;
+}

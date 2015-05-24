@@ -60,7 +60,7 @@ function userExists( user ){
 }
 
 // Display User Information in HTML
-function HTMLize( array ){
+function HTMLize( array, rank ){
 		$('#user').html( array.Name );
 		$('#region').html( array.Region);
 		$('#level').html( array.Level );
@@ -73,6 +73,9 @@ function HTMLize( array ){
 		
 		assignRankColors( array.cRank.toLowerCase(), true );
 		assignRankColors( array.pRank.toLowerCase(), false);
+
+		if( rank !== undefined)
+			$("#delta").html(rank);
 
 }
 
@@ -117,7 +120,7 @@ function assignRankColors( rank, type ){
 }
 
 //Grabs User information from Riot and/or DB
-function fetchUser( param, userQ, regionQ, match ){
+function fetchUser( param, userQ, regionQ, match, rank){
 	var result;
 	switch( param ){
 		case "error" :
@@ -130,6 +133,15 @@ function fetchUser( param, userQ, regionQ, match ){
 			var sumID = dataSet[userQ.replace("%20", "")]['id']; // Replace space characters so we can access index
 			var matches = grabData( buildUrl( regionQ, sumID, apiRef[1] ), apiRef[1] );
 			var tier;
+			var diff;
+			var currentRank;
+
+			//Grab Current (displayed) Division and LP (Stored since last update)
+			if( $('#cRank').text() !== ""){
+					currentRank = $('#cRank').text().split(' ');
+					currentRank = getRank( currentRank[1], currentRank[3].substring(0, currentRank[3].indexOf("L")));
+					console.log( currentRank +  " CURRENT")
+			}
 
 			// Riot returns 404 in the case of Currently Unranked, thus the Try block.
 			try{
@@ -147,6 +159,7 @@ function fetchUser( param, userQ, regionQ, match ){
 			// As long as the request for Rank didn't 404 above
 			if( tier !== messages[3] && tier !== messages[1]){
 				cRank = tier[sumID][0]['tier'] + " " + tier[sumID][0]['entries'][0]['division'] + " - " + tier[sumID][0]['entries'][0]['leaguePoints'] + "LP";
+				diff = getRank( tier[sumID][0]['entries'][0]['division'] , tier[sumID][0]['entries'][0]['leaguePoints'] );
 				pRank = matches['matches'][0]['participants'][0]['highestAchievedSeasonTier'];
 			}
 			else{
@@ -158,15 +171,16 @@ function fetchUser( param, userQ, regionQ, match ){
 		
 			window.localStorage.setItem("sID", sumID); //Not sure if needed yet. 
 			window.localStorage.setItem('m', JSON.stringify(matches));
+		
 			
 			if( results === "added" || results === 'updated'){
-				fetchUser( userExists( user ), user, regionQ, matches ); // Call this method again to extract and display User Information
+				fetchUser( userExists( user ), user, regionQ, matches, gainLoss( currentRank, diff) ); // Call this method again to extract and display User Information
 			}
 			break;
 
 		default:
-			HTMLize( JSON.parse( param ) ); // Parse it to JSON so you can access by index
-
+			HTMLize( JSON.parse( param ), rank ); // Parse it to JSON so you can access by index
+			
 			if( match === undefined ){
 				try{
 					match = JSON.parse( window.localStorage.getItem('m') ) ;
@@ -188,6 +202,56 @@ function fetchUser( param, userQ, regionQ, match ){
 	}
 }
 
+//Determines Division Number from Roman Numerals and returns division number and LP in an array. 
+function getRank( div, lp){
+	var division;
+	switch (div){
+		case "I" :
+				division = 1;
+				break;
+		case "II" :
+				division = 2;
+				break;
+		case "III" :
+				division = 3;
+				break;
+		case "IV" : 
+				division = 4;
+				break;
+		case "V" :
+				division = 5;
+				break;
+		default : 
+				break;
+	}
+	return [division, lp];
+
+}
+
+//Determines the change in LP since last update
+function gainLoss( cur, newer){
+	var deltaDiv, deltaLP, delta;
+	deltaDiv = comparator( cur[0], newer[0]); //Return relation between the two divisions (e.g >, <, =)
+	deltaLP = comparator( cur[1], newer[1]); //Return relation between the two LP values (e.g >, <, =)
+
+	switch( deltaDiv ){
+		case 0:
+			if( deltaLP === 0)
+				delta = 0;
+			else 
+				delta = newer[1] - cur[1];
+			break;
+		case 1:
+			delta =  (100 - cur[1]) + newer[1];
+			break;
+		case -1:
+			delta = (newer[1] - 100) - cur[1];
+			break;
+		default:
+			break;
+	}
+	return (delta >= 0) ? "+" + delta + "LP" : delta + "LP"; //Returns +(X)LP if >=0, -(X)LP otherwise
+}
 
 
 
