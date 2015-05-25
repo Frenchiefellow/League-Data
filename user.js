@@ -19,45 +19,6 @@ function getRegion(){
 	return region;
 }
 
-// Add or Update Basic User info in DB
-function userToDB( user, ID, region, level, pR, cR, icon, update){
-	var result;
-	$.ajax({
-		type: "POST",
-		url: 'http://localhost:1337/xampp/lol/db.php?',
-		data: 'name=' + user + "&ID=" + ID + "&reg=" + region.toUpperCase() + '&level=' + level + "&p=" + pR + "&c=" + cR + "&icon=" + icon + "&update=" + (update === true ? 1 : 0 ),
-		cache: false,
-		async: false, //Depreciated, may be a problem going forward?
-		error: function( error ){
-			result =  error;
-		},
-		success: function( response ){
-			result = response;
-		}
-	});
-	// Returns "added" or "updated" on success
-	return result;
-}
-
-// Checks Whether User Exists in Our DB
-function userExists( user ){
-	var result;
-	$.ajax({
-		type: "GET",
-		url: 'http://localhost:1337/xampp/lol/db.php?user=' + user,
-		cache: false,
-		async: false, //Depreciated, may be a problem going forward?
-		error: function( error ){
-			result = "error";
-		},
-		success: function( response ){
-			result = response;
-		}
-	});
-
-	// Returns False if not exists, otherwise returns User values in an array. 
-	return result;
-}
 
 // Display User Information in HTML
 function HTMLize( array, rank ){
@@ -140,7 +101,6 @@ function fetchUser( param, userQ, regionQ, match, rank){
 			if( $('#cRank').text() !== ""){
 					currentRank = $('#cRank').text().split(' ');
 					currentRank = getRank( currentRank[1], currentRank[3].substring(0, currentRank[3].indexOf("L")));
-					console.log( currentRank +  " CURRENT")
 			}
 
 			// Riot returns 404 in the case of Currently Unranked, thus the Try block.
@@ -176,26 +136,35 @@ function fetchUser( param, userQ, regionQ, match, rank){
 			if( results === "added" || results === 'updated'){
 				fetchUser( userExists( user ), user, regionQ, matches, gainLoss( currentRank, diff) ); // Call this method again to extract and display User Information
 			}
+			grabStats( matches, false ); 
+
 			break;
 
 		default:
 			HTMLize( JSON.parse( param ), rank ); // Parse it to JSON so you can access by index
 			
+			var sumAssoc;
 			if( match === undefined ){
 				try{
 					match = JSON.parse( window.localStorage.getItem('m') ) ;
+					window.localStorage.setItem('sID', match.matches['0'].participantIdentities['0'].player.summonerId);
+					sumAssoc = match.matches['0'].participantIdentities['0'].player.summonerName.toLowerCase();
 				}catch( e ){
 					console.log( e );
 				}
 
-				if( match === null ){
+				// Check to make sure that any match in localStorage is the correct one for the User Name
+				
+				if( match === null || sumAssoc !== getUserName().toLowerCase() ){
 					var userData = JSON.parse( userExists( userQ ) );
 					match = grabData( buildUrl( regionQ, userData.ID, apiRef[1] ), apiRef[1] );
 					window.localStorage.setItem('m', JSON.stringify(match));
+					window.localStorage.setItem('sID', userData.ID);
+					grabStats( match, false );
 				}
 			}
 
-			grabStats( match );
+			grabStats( match, true );
 			break;
 
 
@@ -229,10 +198,9 @@ function getRank( div, lp){
 }
 
 //Determines the change in LP since last update
-function gainLoss( cur, newer){
+function gainLoss( cur, newer ){
 	var deltaDiv, deltaLP, delta;
-	deltaDiv = comparator( cur[0], newer[0]); //Return relation between the two divisions (e.g >, <, =)
-	deltaLP = comparator( cur[1], newer[1]); //Return relation between the two LP values (e.g >, <, =)
+	deltaDiv = comparator( cur[0], newer[0] ); //Return relation between the two divisions (e.g >, <, =)
 
 	switch( deltaDiv ){
 		case 0:

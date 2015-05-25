@@ -4,7 +4,7 @@ function grabChampionJSON(){
 	return grabData( url, {} );	
 }
 
-//Returns Champion Name based on ID parameter
+//Returns Champion Name and ID based on ID parameter
 function extractChampName( champID, champData ){
 	var cName;
 	$.each( champData.data, function( name, val ){
@@ -12,5 +12,7 @@ function extractChampName( champID, champData ){
 			cName = this.name;
 		}
 	});
-	return cName.toString();
+	
+	// Remove any characters from the Name for easy DB storage
+	return [cName.toString().replace(/'/g, "") , champID] ;
 }
