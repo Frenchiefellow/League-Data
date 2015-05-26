@@ -21,16 +21,14 @@ function getRegion(){
 
 
 // Display User Information in HTML
-function HTMLize( array, rank ){
+function HTMLize( array, rank, version ){
 		$('#user').html( array.Name );
 		$('#region').html( array.Region);
 		$('#level').html( array.Level );
 		$('#pRank').html( array.pRank);
 		$('#cRank').html( array.cRank );
 
-		// Retrieve Version Number for DDragon data retrieval from Riot
-		var versions = grabData( versionsUrl( array.Region.toLowerCase() ) );
-		$('#profileIcon').attr("src", "http://ddragon.leagueoflegends.com/cdn/" + versions[1] + "/img/profileicon/" + array.icon + ".png ");
+		$('#profileIcon').attr("src", "http://ddragon.leagueoflegends.com/cdn/" + version + "/img/profileicon/" + array.icon + ".png ");
 		
 		assignRankColors( array.cRank.toLowerCase(), true );
 		assignRankColors( array.pRank.toLowerCase(), false);
@@ -90,6 +88,8 @@ function fetchUser( param, userQ, regionQ, match, rank){
 
 		case "false":
 		case 'update':
+			// Retrieve Version Number for DDragon data retrieval from Riot
+			var versions = grabData( versionsUrl( regionQ.toLowerCase() ) );
 			var dataSet = grabData( buildUrl( regionQ, userQ, apiRef[0] ), apiRef[0] );
 			var sumID = dataSet[userQ.replace("%20", "")]['id']; // Replace space characters so we can access index
 			var matches = grabData( buildUrl( regionQ, sumID, apiRef[1] ), apiRef[1] );
@@ -98,7 +98,7 @@ function fetchUser( param, userQ, regionQ, match, rank){
 			var currentRank;
 
 			//Grab Current (displayed) Division and LP (Stored since last update)
-			if( $('#cRank').text() !== ""){
+			if( $('#cRank').text() !== "" && $("#cRank").text() !== "Unranked"){
 					currentRank = $('#cRank').text().split(' ');
 					currentRank = getRank( currentRank[1], currentRank[3].substring(0, currentRank[3].indexOf("L")));
 			}
@@ -129,25 +129,29 @@ function fetchUser( param, userQ, regionQ, match, rank){
 
 			results = (param === 'false') ? userToDB( user, sumID, regionQ, level, pRank, cRank, icon, false ) : userToDB( user, sumID, regionQ, level, pRank, cRank, icon, true );
 		
-			window.localStorage.setItem("sID", sumID); //Not sure if needed yet. 
 			window.localStorage.setItem('m', JSON.stringify(matches));
-		
 			
 			if( results === "added" || results === 'updated'){
-				fetchUser( userExists( user ), user, regionQ, matches, gainLoss( currentRank, diff) ); // Call this method again to extract and display User Information
+				if( currentRank !== undefined || diff !== undefined)
+					fetchUser( userExists( user ), user, regionQ, matches, gainLoss( currentRank, diff) ); // Call this method again to extract and display User Information
+				else
+					fetchUser( userExists( user ), user, regionQ, matches, {} );
 			}
-			grabStats( matches, false ); 
+			grabStats( matches, sumID, false, versions[0] ); 
 
 			break;
 
 		default:
-			HTMLize( JSON.parse( param ), rank ); // Parse it to JSON so you can access by index
+			// Retrieve Version Number for DDragon data retrieval from Riot
+			var versions = grabData( versionsUrl( getRegion().toLowerCase() ) );
+
+			HTMLize( JSON.parse( param ), rank, versions[0] ); // Parse it to JSON so you can access by index
 			
-			var sumAssoc;
+			var sumAssoc, sID;
 			if( match === undefined ){
 				try{
 					match = JSON.parse( window.localStorage.getItem('m') ) ;
-					window.localStorage.setItem('sID', match.matches['0'].participantIdentities['0'].player.summonerId);
+					sID = match.matches['0'].participantIdentities['0'].player.summonerId
 					sumAssoc = match.matches['0'].participantIdentities['0'].player.summonerName.toLowerCase();
 				}catch( e ){
 					console.log( e );
@@ -159,12 +163,12 @@ function fetchUser( param, userQ, regionQ, match, rank){
 					var userData = JSON.parse( userExists( userQ ) );
 					match = grabData( buildUrl( regionQ, userData.ID, apiRef[1] ), apiRef[1] );
 					window.localStorage.setItem('m', JSON.stringify(match));
-					window.localStorage.setItem('sID', userData.ID);
-					grabStats( match, false );
+					sID = match.matches['0'].participantIdentities['0'].player.summonerId;
+					grabStats( match, sID, false, versions[0] );
 				}
 			}
 
-			grabStats( match, true );
+			grabStats( match, sID,  true, versions[0] );
 			break;
 
 

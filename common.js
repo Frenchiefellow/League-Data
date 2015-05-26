@@ -62,3 +62,23 @@ function comparator( num1, num2){
 	else
 		return 0;
 }
+
+// AJAX request assembler
+function toAJAX( request, URL, datas, cached, sync){
+	var result;
+		$.ajax({
+			type: request,
+			url: URL,
+			data: datas,
+			cache: cached,
+			async: sync, 
+			error: function( error ){
+				result = "error";
+			},
+			success: function( response ){
+				result = response;
+			}
+		});
+
+	return result;
+}

@@ -1,6 +1,6 @@
 //Retrives fully updated Champion.JSON from Riot Data Dragon
-function grabChampionJSON(){
-	var url = "http://ddragon.leagueoflegends.com/cdn/5.2.1/data/en_US/champion.json";
+function grabChampionJSON( version ){
+	var url = "http://ddragon.leagueoflegends.com/cdn/" + version + "/data/en_US/champion.json";
 	return grabData( url, {} );	
 }
 
